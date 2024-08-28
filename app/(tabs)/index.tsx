@@ -1,70 +1,76 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { View, Text, TextInput, Pressable, FlatList, Image } from 'react-native';
+import { Feather, FontAwesome } from '@expo/vector-icons';
+import CourseItem from '../../components/CourseItem';
+import { coursesData } from '@/data/coursesData';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
+const HomeScreen = () => {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  <View className='bg-[#FFFFFF] flex-1'>
+    <View className='bg-[#01353B] pt-12 p-4'>
+      {/* Header */}
+      <View>
+        <View className="flex-row items-center">
+          <Text className="text-gray-400 text-xl mr-2">Good morning</Text>
+          <FontAwesome name="cloud" size={24} color="#FFFFFF" /> 
+        </View>
+        <View className="flex-row justify-between items-center py-4">
+          <Text className="text-white text-xl mr-2">Marisson Kalao</Text>
+          <Feather name="bell" size={24} color="#FFFFFF" />
+        </View>
+        {/* Search Box */}
+        <View className="mt-6 flex-row items-center rounded-lg border-2 border-gray-400 px-4 py-4">
+          <Feather name="search" size={20} color="#FFFFFF" />
+          <TextInput
+            className="ml-4 flex-1 text-gray-400 bg-transparent"
+            placeholder="What do you want to learn?"
+            placeholderTextColor="#A0A0A0"
+          />
+        </View>
+      </View> 
+    </View>
+    {/* Explore Topics Section */}
+    <View className="pt-8 p-4 rounded-lg">
+      <View className="flex-row justify-between items-center">
+        <Text className="text-black text-lg font-bold">Explore topics</Text>
+        <Text className="text-[#32CD32] text-lg">See more</Text>
+      </View>
+    </View>
+    {/* Icons Section */}
+    <View className="flex-row justify-between items-center p-4">
+      <Pressable className="flex-col items-center">
+        <FontAwesome name="briefcase" size={32} color="#01353B" />
+        <Text className="text-gray-400 text-sm mt-2">Business</Text>
+      </Pressable>
+      <Pressable className="flex-col items-center">
+        <FontAwesome name="paint-brush" size={32} color="#01353B" />
+        <Text className="text-gray-400 text-sm mt-2">Design</Text>
+      </Pressable>
+      <Pressable className="flex-col items-center">
+        <FontAwesome name="money" size={32} color="#01353B" />
+        <Text className="text-gray-400 text-sm mt-2">Finance</Text>
+      </Pressable>
+      <Pressable className="flex-col items-center">
+        <FontAwesome name="bullhorn" size={32} color="#01353B" />
+        <Text className="text-gray-400 text-sm mt-2">Marketing</Text>
+      </Pressable>
+    </View>
+    {/* Recommended Topics Section */}
+    <View className="p-4 rounded-lg">
+      <View className="flex-row justify-between items-center">
+        <Text className="text-black text-lg font-bold">Recommended for you</Text>
+        <Text className="text-[#32CD32] text-lg">See more</Text>
+      </View>
+      <FlatList
+      data={coursesData}
+      renderItem={({ item }) => <CourseItem item={item} />}
+      keyExtractor={(item) => item.id}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      />
+    </View>
+  </View> 
   );
-}
+};
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+export default HomeScreen;
