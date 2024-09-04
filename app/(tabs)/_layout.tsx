@@ -11,7 +11,17 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: '#002A2F',
+        tabBarInactiveTintColor: 'gray',
+        tabBarStyle: {
+          backgroundColor: '#fff',
+          borderTopWidth: 0.2,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 4,
+          elevation: 20,
+        },
         headerShown: false,
       }}>
       <Tabs.Screen
@@ -28,7 +38,34 @@ export default function TabLayout() {
         options={{
           title: 'Explore',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'search' : 'search-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="myClass"
+        options={{
+          title: 'MyClass',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'school' : 'school-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="wishList"
+        options={{
+          title: 'WishList',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'heart' : 'heart-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
           ),
         }}
       />
