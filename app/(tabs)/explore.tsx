@@ -1,102 +1,50 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
+import React from 'react';
+import { View, Text, TextInput, FlatList, Image, Pressable } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { coursesData } from '@/data/coursesData';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function TabTwoScreen() {
+const ExploreScreen = () => {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
-  );
-}
+    <View className='bg-[#FFFFFF] flex-1'>
+      {/* Header */}
+      <View className='bg-[#01353B] pt-12 p-4'>
+        <View className="flex-row items-center">
+          <Text className="text-white text-xl mr-2">Explore</Text>
+          <Feather name="search" size={24} color="#FFFFFF" />
+        </View>
+        {/* Search Box */}
+        <View className="mt-6 flex-row items-center rounded-lg border-2 border-gray-400 px-4 py-4">
+          <Feather name="search" size={20} color="#FFFFFF" />
+          <TextInput
+            className="ml-4 flex-1 text-gray-400 bg-transparent"
+            placeholder="Search topics, courses, and more"
+            placeholderTextColor="#A0A0A0"
+          />
+        </View>
+      </View>
 
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});
+      {/* Explore Courses Section */}
+      <View className="pt-8 p-4">
+        <Text className="text-black text-lg font-bold">Explore Courses</Text>
+      </View>
+
+      {/* Courses Grid */}
+      <FlatList
+        data={coursesData}
+        numColumns={2}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{ padding: 4 }}
+        renderItem={({ item }) => (
+          <Pressable className="w-[48%] bg-gray-100 p-4 rounded-lg m-2">
+            <Image source={item.image} className="w-full h-32 rounded-md" resizeMode="cover" />
+            <Text className="text-black text-lg font-bold mt-2">{item.title}</Text>
+            <Text className="text-gray-500">{item.price}</Text>
+            <Text className="text-[#FFD700] mt-1">⭐ {item.rating}</Text>
+          </Pressable>
+        )}
+      />
+    </View>
+  );
+};
+
+export default ExploreScreen;
